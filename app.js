@@ -36,6 +36,33 @@ class movieClass{
     }
     favButtonClicked(){
         this.favorite = !this.favorite
+    }
+    upVoteClicked(){
+        if (this.rank = 1){
+            //can't be clicked
+            /*let temp = movieList[movieKeys[0]]
+            movieList[movieKeys[1]] = movieList[movieKeys[0]].rank
+            movieList[movieKeys[0]] = temp*/
+            const x = movieList[movieKeys[0]].rank
+            const y = movieList[movieKeys[1]].rank
+
+            movieList[movieKeys[0]].rank = y
+            movieList[movieKeys[1]].rank = x
+            
+        }
+        else{
+            //find the other movie and do a switch
+        }
+        //can't be clicked if it has the minimum rank
+    }
+    downVoteClicked(){
+        //can't be clicked if it has the maximum rank
+        if (this.rank = numFilms){
+            //can't be clicked
+        }
+        else{
+            //find the other movie and do a switch
+        }
     }    
 }
 //so this is good but I want to have a list of these movies
@@ -67,22 +94,7 @@ function updateMovieList(MovieName){
 
 const list = document.querySelector('#flick-list') //this is where the new thing is going to go
 
-const newFlick = document.createElement('div')
-newFlick.textContent = 'Transformers'
 
-const heartButton = document.createElement('button')
-heartButton.textContent = '💖'
-const upVoteButton = document.createElement('button')
-upVoteButton.textContent = '👍'
-const downVoteButton = document.createElement('button')
-downVoteButton.textContent = '👎'
-const removeButton = document.createElement('button')
-removeButton.textContent = '🗑️'
-
-newFlick.appendChild(heartButton)
-newFlick.appendChild(upVoteButton)
-newFlick.appendChild(downVoteButton)
-newFlick.appendChild(removeButton)
 
 //list.appendChild(newFlick)
 
@@ -125,11 +137,58 @@ const app = {
             name: f.flickName.value,
         }
         ++this.max
-        console.log('DID IT CLICK')
+        list.appendChild(this.renderMovie(flick.name))
 
-        const form = document.querySelector('form#flick-form')
-        //form.appendChild(listTest)
+        updateMovieList(flick.name)
     },
+
+     renderMovie: function(movieName){
+        const newFlick = document.createElement('div')
+        newFlick.textContent = movieName
+
+        const heartButton = document.createElement('button')
+        heartButton.textContent = '💖'
+        heartButton.addEventListener('click',this.favoriteClicked)
+        heartButton.tag = numFilms
+
+        const upVoteButton = document.createElement('button')
+        upVoteButton.textContent = '👍'
+        upVoteButton.addEventListener('click',this.thumbUPClicked)
+
+        const downVoteButton = document.createElement('button')
+        downVoteButton.textContent = '👎'
+        downVoteButton.addEventListener('click',this.thumbDOWNClicked)
+
+        const removeButton = document.createElement('button')
+        removeButton.textContent = '🗑️'
+        removeButton.addEventListener('click',this.removeClicked)
+
+        newFlick.appendChild(heartButton)
+        newFlick.appendChild(upVoteButton)
+        newFlick.appendChild(downVoteButton)
+        newFlick.appendChild(removeButton)
+        return newFlick
+    },
+    favoriteClicked: function(ev){
+        //console.log("favbutt")
+        console.log(ev.target.tag)
+        movieList[movieKeys[ev.target.tag]].favButtonClicked()
+
+        if(movieList[movieKeys[ev.target.tag]].favorite)
+            ev.target.textContent = '💔'
+        else
+            ev.target.textContent = '💖'
+    },
+    thumbUPClicked: function(){
+        console.log("upbutt")
+    },
+    thumbDOWNClicked: function(){
+        console.log("downbutt")
+    },
+    removeClicked: function(){
+        console.log("removebutt")
+    }
+
 
 
 }
